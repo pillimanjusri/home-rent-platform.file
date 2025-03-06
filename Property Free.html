@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Property for Free</title>
+    <style>
+        /* CSS Code */
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+        
+        header {
+            background-color: #0056a3;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 24px;
+        }
+        
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .left-section {
+            width: 50%;
+            padding: 20px;
+        }
+        
+        .left-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .left-section li {
+            padding: 10px 0;
+            font-size: 18px;
+        }
+        
+        .highlight {
+            color: #eb3838;
+            font-weight: bold;
+        }
+        
+        .right-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+        
+        .right-section h2 {
+            margin-bottom: 20px;
+        }
+        
+        .radio-group {
+            display: flex;
+            justify-content: space-around;
+            margin: 10px 0;
+        }
+        
+        input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        button {
+            background-color: #09da41;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #94e7ec;
+        }
+        
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+        /* Back to Home Button */
+        
+        .back-home-container {
+            margin-top: 20px;
+        }
+        
+        .back-home-btn {
+            background-color: #d93025;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .back-home-btn:hover {
+            background-color: #b9231b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Post Your Property for Free</h1>
+    </header>
+
+    <div class="container">
+        <div class="left-section">
+            <h2>Post property Ad to sell or rent online for <span class="highlight">Free!</span></h2>
+            <ul>
+                <li>Get Access to 4 Lakh+ Buyers</li>
+                <li>Sell Faster with Premium Service</li>
+                <li>Get Expert Advice on Market Trends</li>
+            </ul>
+        </div>
+
+        <div class="right-section">
+            <h2>Let's Get You Started</h2>
+            <form id="propertyForm">
+                <label>You are:</label>
+                <div class="radio-group">
+                    <input type="radio" name="userType" value="Owner" checked> Owner
+                    <input type="radio" name="userType" value="Agent"> Agent
+                    <input type="radio" name="userType" value="Builder"> Builder
+                </div>
+
+                <label>You are here to:</label>
+                <div class="radio-group">
+                    <input type="radio" name="listingType" value="Sell" checked> Sell
+                    <input type="radio" name="listingType" value="Rent"> Rent/Lease
+                    <input type="radio" name="listingType" value="PG"> List as PG
+                </div>
+
+                <label>Your Contact Number:</label>
+                <input type="text" id="whatsappNumber" placeholder="WhatsApp Number" required>
+                <p id="error-message" class="error"></p>
+
+                <button type="submit">Start Now</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ✅ Corrected Back to Home Button -->
+    <div class="back-home-container">
+        <a href="index.html" class="back-home-btn">← Back to Home</a>
+    </div>
+
+    <script>
+        // JavaScript Form Validation
+        document.getElementById("propertyForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            var whatsappNumber = document.getElementById("whatsappNumber").value;
+            var errorMessage = document.getElementById("error-message");
+
+            // Regular expression to check if number is valid
+            var phoneRegex = /^[6-9]\d{9}$/;
+
+            if (!phoneRegex.test(whatsappNumber)) {
+                errorMessage.innerText = "Please enter a valid WhatsApp number (10 digits starting with 6-9).";
+            } else {
+                errorMessage.innerText = "";
+                alert("Property submitted successfully!");
+                this.submit(); // Submit the form if valid
+            }
+        });
+    </script>
+
+</body>
+
+</html>

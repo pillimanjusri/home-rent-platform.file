@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Layout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="postproperty.html">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #fbf7ef;
+            font-family: Arial, sans-serif;
+        }
+        /* Navbar */
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #0056a3;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+        }
+        
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            width: 50%;
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        
+        .search-bar input {
+            border: none;
+            width: 100%;
+            outline: none;
+            padding: 5px;
+        }
+        
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .btn-post {
+            background: #fff;
+            color: #0056a3;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        /* Left Sidebar */
+        
+        .left-sidebar {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 70%;
+            height: calc(100vh - 60px);
+            background-color: #fdf6e3;
+            overflow-y: auto;
+            padding: 10px;
+            border-right: 2px solid #ccc;
+        }
+        
+        .filters-container {
+            width: 100%;
+            max-width: 300px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 10px;
+        }
+        
+        .filter-group {
+            margin-bottom: 15px;
+        }
+        
+        .applied-filters {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        /* Right Sidebar */
+        
+        .right-sidebar {
+            position: fixed;
+            top: 60px;
+            right: 0;
+            width: 20%;
+            height: calc(100vh - 60px);
+            background-color: #fdf6e3;
+            padding: 10px;
+            border-left: 2px solid #ccc;
+        }
+        /* Main Content */
+        
+        .main-content {
+            position: absolute;
+            top: 60px;
+            left: 20%;
+            width: 60%;
+            height: calc(100vh - 60px);
+            background-color: #faf3e0;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .sidebar {
+            width: 300px;
+            background-color: #f4f4f4;
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .sidebar h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .menu-item {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .submenu {
+            display: none;
+            padding-left: 20px;
+        }
+        
+        .submenu a {
+            display: block;
+            padding: 8px 0;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .submenu a:hover {
+            color: #0073e6;
+        }
+        
+        .menu-item.active+.submenu {
+            display: block;
+        }
+        
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            width: 250px;
+            padding: 20px;
+            z-index: 1000;
+        }
+        
+        .dropdown-menu.active {
+            display: block;
+        }
+        
+        .dropdown-menu h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .dropdown-menu ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .dropdown-menu li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+        
+        .dropdown-menu li:hover {
+            color: #0056a6;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .user-actions h2,
+        .user-actions h3 {
+            margin: 0 0 10px;
+        }
+        
+        .login-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        /* login page css code */
+        
+        .background {
+            width: 430px;
+            height: 520px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            left: 50%;
+            top: 50%;
+        }
+        
+        .background .shape {
+            height: 200px;
+            width: 200px;
+            position: absolute;
+            border-radius: 50%;
+        }
+        
+        .shape:first-child {
+            background: linear-gradient(#1845ad, #23a2f6);
+            left: -80px;
+            top: -80px;
+        }
+        
+        .shape:last-child {
+            background: linear-gradient(to right, #ff512f, #f09819);
+            right: -30px;
+            bottom: -80px;
+        }
+        
+        form {
+            height: 520px;
+            width: 400px;
+            background-color: rgba(255, 255, 255, 0.13);
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+            padding: 50px 35px;
+        }
+        
+        form * {
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            outline: none;
+            border: none;
+        }
+        
+        form h3 {
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 42px;
+            text-align: center;
+        }
+        
+        .sg {
+            display: block;
+            margin-top: 30px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .sg {
+            display: block;
+            margin-top: 30px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .sg {
+            display: block;
+            height: 50px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.07);
+            border-radius: 3px;
+            padding: 0 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 300;
+        }
+        
+         ::sg {
+            color: #e5e5e5;
+        }
+        
+        #sgb {
+            margin-top: 50px;
+            width: 100%;
+            background-color: #ffffff;
+            color: #080710;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .social {
+            margin-top: 30px;
+            display: flex;
+        }
+        
+        .social div {
+            background: red;
+            width: 150px;
+            border-radius: 3px;
+            padding: 5px 10px 10px 5px;
+            background-color: rgba(255, 255, 255, 0.27);
+            color: #eaf0fb;
+            text-align: center;
+        }
+        
+        .social div:hover {
+            background-color: rgba(255, 255, 255, 0.47);
+        }
+        
+        .social .fb {
+            margin-left: 25px;
+        }
+        
+        .social i {
+            margin-right: 4px;
+        }
+    </style>
+
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="logo">Home rental</div>
+
+        <div class="search-bar">
+            <select class="form-select" style="width: 80px;" id="propertyType" onchange="toggleListings()">
+                <option>Rent</option>
+                <option>Buy</option>
+            </select>
+            <input type="text" id="search-bar" placeholder="Enter Locality / Project / Society / Landmark">
+            <button class="btn btn-outline-primary" onclick="seacrhproperties()">🔍</button>
+        </div>
+
+        <div class="navbar-right">
+            <button class="btn btn-post"><a href="Property Free.html">Post Property FREE</a></button>
+
+            <!-- Icon Container -->
+            <div class="icon-container" id="iconContainer">
+
+                <div class="icon"></div>
+                <i class="fa-solid fa-user fa-xl" style="color: #63E6BE;"></i>
+                <span>▼</span>
+            </div>
+            <!-- Dropdown Menu -->
+            <div class="dropdown-menu" id="dropdownMenu">
+                <div class="user-actions">
+                    <h2 class="login-btn" id="loginButton">LOGIN / REGISTER</h2>
+                    <h3>My Activity</h3>
+                    <ul>
+                        <li>Recently Searched</li>
+                        <li>Recently Viewed</li>
+                        <li>Shortlisted</li>
+                        <li>Contacted</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Left Sidebar (Filters) -->
+    <div class="left-sidebar">
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="filters-container">
+                        <h5>Filters</h5>
+                        <div class="applied-filters">
+                            <strong>Applied Filters:</strong>
+                            <div id="selected-filters"></div>
+                        </div>
+
+                        <!-- Budget Filter -->
+                        <div class="filter-group">
+                            <label for="budget-range" class="form-label">Budget (Lacs)</label>
+                            <input type="range" class="form-range" id="budget-range" min="0" max="100" step="1">
+                            <p>Selected: <span id="budget-value">0</span> Lacs</p>
+                        </div>
+
+                        <!-- Bedrooms Filter -->
+                        <div class="filter-group">
+                            <label class="form-label">No. of Bedrooms</label>
+                            <select class="form-select" id="bedrooms">
+                                <option value="1 BHK">1 BHK</option>
+                                <option value="2 BHK">2 BHK</option>
+                                <option value="3 BHK">3 BHK</option>
+                                <option value="4 BHK">4 BHK</option>
+                                <option value="5 BHK">5+ BHK</option>
+                            </select>
+                        </div>
+
+                        <!-- Property Type Filter -->
+                        <div class="filter-group">
+                            <label class="form-label"><b> Type of Property</b></label>
+                            <div>
+                                <input type="checkbox" id="independent-house" value="Independent House">
+                                <label for="independent-house"> Independent House/Villa</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="apartment" value="Apartment">
+                                <label for="apartment"> Residential Apartment</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="farm-house" value="Farm House">
+                                <label for="farm-house"> Farm House/Villa</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="servicedapartment" value="Serviced_Apartment">
+                                <label for="servicedapartment"> Serviced Apartment</label>
+                            </div>
+                        </div>
+
+
+                        <!-- Available Type Filter -->
+                        <div class="filter-group">
+                            <label class="form-label"><b> Available for</b></label>
+                            <div>
+                                <input type="checkbox" id="family" value="Family">
+                                <label for="family"> Family</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="singlewomen" value="SingleWomen">
+                                <label for="singlewomen"> Residential </label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="singlemen" value="Single Men">
+                                <label for="singlemen"> Single Men</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="tenants" value="Tenants with company lease">
+                                <label for="tenants"> Tenants with company Lease</label>
+                            </div>
+                        </div>
+
+                        <!-- Apply Filters Button -->
+                        <button class="btn btn-primary w-100" id="apply-filters">Apply Filters</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div id="rent-list">
+            <h4> Property for Rent</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="Elevation Blue.jpeg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">4 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹39,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'> </i>madhapur,hyderabad</p>
+                                    <p class="rating">⭐ 4.7 (40 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="bbcf4631-6ba4-41e0-9262-faf18ab68ae6.jpeg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Bhavani Home Rent</h5>
+                                    <p class="card-text">3 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹29,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>punjaguta,hyderabad</p>
+                                    <p class="rating">⭐ 4.5 (29 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="0a003616-262e-40b6-88f1-80e4481bac9e.jpeg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Lavanya Home Rent</h5>
+                                    <p class="card-text">3 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹26,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>santhanagar,hyderabad</p>
+                                    <p class="rating">⭐ 4.0 (27 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="58b585e6-3705-4eb5-a03b-45faad145c12.jpeg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Greeshma Home Rent</h5>
+                                    <p class="card-text">3 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹21,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>nampally,hyderabad</p>
+                                    <p class="rating">⭐ 4.2 (33 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="1d7d0d95-4fa9-4fdf-bdcf-e33c05a534f5.jpeg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Manju Home Rent</h5>
+                                    <p class="card-text">4 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹39,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>musheerbad,hyderabad</p>
+                                    <p class="rating">⭐ 4.5 (32 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="Image result for elevations of independent houses.jpeg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">swetha buldings</h5>
+                                    <p class="card-text">2 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹15,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>gajuwaka,vissakapatanam</p>
+                                    <p class="rating">⭐ 3.9 (33 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="greg-rivers-rChFUMwAe7E-unsplash.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">sahu builder</h5>
+                                    <p class="card-text">3 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹22,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>seethamadhara,vissakapatanam</p>
+                                    <p class="rating">⭐ 4.0 (23 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="jennifer-r-sZ9F_XkGJfI-unsplash.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">1 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹9,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>MVP colony,vissakapatanam</p>
+                                    <p class="rating">⭐ 3.9 (30 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="florian-schmidinger-b_79nOqf95I-unsplash.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Hilltop residency</h5>
+                                    <p class="card-text">4 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹39,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'> </i>akkayapalem,vissakapatanam</p>
+                                    <p class="rating">⭐ 4.7 (36 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="john-fornander-y3_AHHrxUBY-unsplash.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">2 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹19,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'> </i>sujatha nagar,vissakapatanam</p>
+                                    <p class="rating">⭐ 4.2 (20 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="john-fornander-Id7u0EkTjBE-unsplash.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">3 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹21,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'> </i>besant nagar,chennai</p>
+                                    <p class="rating">⭐ 4.1 (20 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="vj-von-art-BP1Ze0qcp-c-unsplash.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Apartment</h5>
+                                    <p class="card-text">4 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹26,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>mylapor,chennai</p>
+                                    <p class="rating">⭐ 4.5 (20 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="avi-werde-hHz4yrvxwlA-unsplash.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Sahu Apartments</h5>
+                                    <p class="card-text">4 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹29,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>anna nagar,chennai</p>
+                                    <p class="rating">⭐ 4.2 (25 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="frames-for-your-heart-vbSRUrNm3Ik-unsplash.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Gangadhar villas</h5>
+                                    <p class="card-text">3 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>vadapalani,chennai</p>
+                                    <p class="rating">⭐ 4.0 (28 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="frames-for-your-heart-mR1CIDduGLc-unsplash.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">2 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹9,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>adyar,chennai</p>
+                                    <p class="rating">⭐ 4.0 (20 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="pexels-pixabay-53610.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">1 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹7,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'> </i>jayanagar,bangalore</p>
+                                    <p class="rating">⭐ 3.8 (19 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="pexels-pixabay-280229.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">3 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹13,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>malleshwaram,bengalore</p>
+                                    <p class="rating">⭐ 4.0 (22 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="pexels-binyaminmellish-106399 (2).jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">2 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹8,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'> </i>marathahalli,bengalore</p>
+                                    <p class="rating">⭐ 4.0 (12 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="pexels-binyaminmellish-106399.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">2 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹10,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'> </i>koramagala,bangalore</p>
+                                    <p class="rating">⭐ 4.1 (25 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="istockphoto-486863284-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">4 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹22,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>rajajinagar,bengalore</p>
+                                    <p class="rating">⭐ 4.5 (27 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="istockphoto-1221865626-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">3 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹19,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'> </i>enikepadu,vijayawada</p>
+                                    <p class="rating">⭐ 4.4 (21 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="istockphoto-2077782816-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">2 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹15,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'> </i>kakipadu,vijayawada</p>
+                                    <p class="rating">⭐ 4.1 (12 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="istockphoto-1213296307-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">1 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹6,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>kanuru,vijayawada</p>
+                                    <p class="rating">⭐ 4.0 (22 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="istockphoto-2165935396-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">2 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹13,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'> </i>bharathinagar,vijayawada</p>
+                                    <p class="rating">⭐ 3.9 (24 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="istockphoto-1223583411-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">4 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹21,999</strong> /month</p>
+                                    <p><i class='fas fa-map-marker-alt'></i> ayodhya nagar,vijayawada</p>
+                                    <p class="rating">⭐ 4.5 (20 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="istockphoto-946267094-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">2 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹12,999</strong> /month</p>
+                                    <p class="rating">⭐ 4.1 (20 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="istockphoto-1225038801-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">2 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹15,999</strong> /month</p>
+                                    <p class="rating">⭐ 4.4 (27 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="istockphoto-1398997236-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">2 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹13,999</strong> /month</p>
+                                    <p class="rating">⭐ 4.2 (24 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="istockphoto-999460094-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">3 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹18,999</strong> /month</p>
+                                    <p class="rating">⭐ 4.4 (30 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="istockphoto-999462878-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saibaba Home Rent</h5>
+                                    <p class="card-text">2 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹19,999</strong> /month</p>
+                                    <p class="rating">⭐ 3.9 (20 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- to open buy page -->
+
+
+        <div id="buy-list" class="hidden">
+            <h4>Property for Buy</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="istockphoto-1318937211-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Sahus Home Rent</h5>
+                                    <p class="card-text">2 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹50</strong>/lacs</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>madhapur,hyderabad</p>
+                                    <p class="rating">⭐ 3.9 (20 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="istockphoto-2184332217-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Sgb Home Rent</h5>
+                                    <p class="card-text">2 Bedroom House for rent</p>
+                                    <p class="card-text"><strong>₹25</strong> /lacs</p>
+                                    <p><i class='fas fa-map-marker-alt'></i>punjaguta,hyderabad</p>
+                                    <p class="rating">⭐ 3.9 (20 Reviews)</p>
+                                    <button class="btn btn-primary">Book Now</button>
+                                    <button class="btn btn-outline-primary">Contact</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-2165792882-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">sudhakar home</h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹30</strong> /lacs</p>
+                                <p><i class='fas fa-map-marker-alt'></i>santhanagar,hyderabada</p>
+                                <p class="rating">⭐ 4.2 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-2165935728-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">lavanya home</h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹25</strong> /Lacs</p>
+                                <p><i class='fas fa-map-marker-alt'></i>nampally,hyderabad</p>
+                                <p class="rating">⭐ 4.1 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-2197517651-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">vyshanavi home</h5>
+                                <p class="card-text">4 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹20</strong> /lacs</p>
+                                <p><i class='fas fa-map-marker-alt'></i>musheerabad,hyderabad</p>
+                                <p class="rating">⭐ 3.9 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-2181829690-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">chandu builiding</h5>
+                                <p class="card-text">2 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹15</strong> /lacs</p>
+                                <p><i class='fas fa-map-marker-alt'></i>gajuwaka,vissakapatanam</p>
+                                <p class="rating">⭐ 3.6 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-1318936983-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">dileep home</h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹20</strong> /lacs</p>
+                                <p><i class="fa fa-map-marker-alt"></i></p>
+                                <p><i class='fas fa-map-marker-alt'></i></p>
+                                <p class="rating">⭐ 3.4 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-1020483600-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">sree vidya apartments</h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹22</strong> /lacs</p>
+                                <p class="rating">⭐ 4.2 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-1028861592-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">arjun independent house</h5>
+                                <p class="card-text">4 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹45</strong> /lacs</p>
+                                <p class="rating">⭐ 4.2 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-1022808158-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">sri nivas home</h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹20</strong> /lacs</p>
+                                <p class="rating">⭐ 3.0 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-1021664258-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">anand bhawan home</h5>
+                                <p class="card-text">2 Bedroom House for rent</p>
+                                <p class="card-text"><strong>25</strong> /lacs</p>
+                                <p class="rating">⭐ 4.3 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-1318936983-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">prem Homes</h5>
+                                <p class="card-text">4 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹30</strong> /lacs</p>
+                                <p class="rating">⭐ 4.2 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-2157434624-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">lavanyasudhakar apartments</h5>
+                                <p class="card-text">4 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹33</strong> /lacs</p>
+                                <p class="rating">⭐ 4.5 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-1481321062-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">priya Homes</h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹28</strong> /lacs</p>
+                                <p class="rating">⭐ 4.2 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-2156338252-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">dwarka Homes</h5>
+                                <p class="card-text">2 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹25</strong> /lacs</p>
+                                <p class="rating">⭐ 4.2 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-2157439513-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">kailasam homes</h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹26</strong> /lacs</p>
+                                <p class="rating">⭐ 4.0 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-2163056464-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">gokulam Homes</h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹24</strong> /lacs</p>
+                                <p class="rating">⭐ 3.0 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-2163934590-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">nirvana residency</h5>
+                                <p class="card-text"> Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹40</strong> /lacs</p>
+                                <p class="rating">⭐ 4.2 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-2155696923-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">mahashiva apartment</h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹56</strong> /lacs</p>
+                                <p class="rating">⭐ 4.5 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-1171743745-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">pooja home</h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹27</strong> /lacs</p>
+                                <p class="rating">⭐ 3.4 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="pexels-binyaminmellish-106399 (1).jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">sudha home</h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹34</strong> /lacs</p>
+                                <p class="rating">⭐ 3.7 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="frames-for-your-heart-mR1CIDduGLc-unsplash.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">satyanarayana builidings</h5>
+                                <p class="card-text">2 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹45</strong> /lacs</p>
+                                <p class="rating">⭐ 4.3 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="0a003616-262e-40b6-88f1-80e4481bac9e.jpeg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">hemalatha homes</h5>
+                                <p class="card-text">4 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹45</strong> /lacs</p>
+                                <p class="rating">⭐ 3.0 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-1225038801-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">sai homes</h5>
+                                <p class="card-text">2 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹20</strong> /lacs</p>
+                                <p class="rating">⭐ 4.2 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-2173081282-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">swarg villas </h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹75</strong> /lacs</p>
+                                <p class="rating">⭐ 4.6 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-999460094-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">sukoon builidings</h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹34</strong> /lacs</p>
+                                <p class="rating">⭐ 3.5 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-1020483600-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">sandya residency</h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹34</strong> /lacs</p>
+                                <p class="rating">⭐ 4.2 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-1213296307-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">lakshmi house</h5>
+                                <p class="card-text">3 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹45</strong> /lacs</p>
+                                <p class="rating">⭐ 4.6 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-1022808158-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">sunitha villas</h5>
+                                <p class="card-text">5 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹1</strong> /crore</p>
+                                <p class="rating">⭐ 4.8 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="istockphoto-2077782816-1024x1024.jpg" class="img-fluid rounded" alt="Property Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">madhu homes</h5>
+                                <p class="card-text">4 Bedroom House for rent</p>
+                                <p class="card-text"><strong>₹76</strong> /lacs</p>
+                                <p class="rating">⭐ 4.1 (20 Reviews)</p>
+                                <button class="btn btn-primary">Book Now</button>
+                                <button class="btn btn-outline-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <template id="login-from-template">
+        <div id="login-form">
+            <div class="asl">
+                <div class="hrp-container" id="hrp-container">
+                    <form action="#" class="sla-form">
+                        <h1  class="sl">Create Account</h1>
+                        <div class="hrp-social-container">
+                            <a href="#" class="aa"><i class="fab fafacebook-f"></i></a>
+                            <a href="#" class="aa"><i class="fab fa-google-plug-g"></i></a>
+                            <a href="#" class="aa"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                        <span>or use your email for registration</span>
+                        <input type="text" placeholder="name" class="ssll"/>
+                        <input type="email" placeholder="email" class="ssll"/>
+                        <input type="password" placeholder="password" class="ssll"/>
+                        <button class="but">sign up</button>
+                    </form>
+                </div>
+                <div class="hrp-form-container hrp-sign-in-container">
+                    <form action="#" class="asl-form">
+                        <h1 class="as">sign in</h1>
+                        <div class="hrp-social-container">
+                            <a href="#" class="aa"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="aa"><i class="fab fa-google-plug-g"></i></a>
+                            <a href="#" class="aa"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                        <span class="bgs">or use your account</span>
+                        <input type="email" placeholder="email" class="ssll"/>
+                         <a href="#" class="aa">forgot your password</a>
+                         <button class="but">sign in</button>
+                    </form>
+                </div>
+                <div class="hrp-overlay-container">
+                    <div class="hrp-overlay">
+                        <div class="hrp-overlay-panel hrp-overlay-left">
+                            <h1 class="as">welcome back!</h1>
+                            <p class="sudha">to keep connected with us please login with your personal info</p>
+                            <button class="but hrp-ghost" id="hrp-signin">Sign In </button>
+                        </div>
+                        <div class="hrp-overlay-panel hrp-overlay-right">
+                            <h1 class="sa">hello,friend!</h1>
+                            <p class="sudha">Enter your personal details and start your journey with us</p>
+                            <button class="but hrp-ghost" id="hrp-signup">sign up</button>
+                        </div>
+                    </div>
+                </div>
+            /div>
+        </div>
+    </template>
+    </div>
+
+    <!-- Right Sidebar (Dealers, Buyers, etc.) -->
+    <div class="right-sidebar">
+        <div class="sidebar">
+            <h2>Explore our Services</h2>
+
+            <div class="menu-item">For Buyers</div>
+            <div class="submenu">
+                <a href="#">Buy Property</a>
+                <a href="#">Investment Advice</a>
+            </div>
+
+            <div class="menu-item">For Tenants</div>
+            <div class="submenu">
+                <a href="#">Rent Homes</a>
+                <a href="#">Short-term Rentals</a>
+            </div>
+
+            <div class="menu-item">For Owners</div>
+            <div class="submenu">
+                <a href="#">List Property</a>
+                <a href="#">Manage Tenants</a>
+            </div>
+
+            <div class="menu-item">For Dealers / Builders</div>
+            <div class="submenu">
+                <a href="#">Partner with Us</a>
+                <a href="#">Builder Services</a>
+            </div>
+            <div class="menu-item">About Us</div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("budget-range").addEventListener("input", function() {
+                document.getElementById("budget-value").textContent = this.value;
+            });
+
+            document.getElementById("apply-filters").addEventListener("click", function() {
+                let selectedFilters = [];
+
+                // Get budget filter
+                let budget = document.getElementById("budget-range").value;
+                if (budget > 0) selectedFilters.push("Budget: " + budget + " Lacs");
+
+                // Get bedroom filter
+                let bedrooms = document.getElementById("bedrooms").value;
+                selectedFilters.push("Bedrooms: " + bedrooms);
+
+                // Get property type filter
+                let checkboxes = document.querySelectorAll(".filter-group input[type='checkbox']:checked");
+                checkboxes.forEach(function(checkbox) {
+                    selectedFilters.push(checkbox.value);
+                });
+
+                // Display applied filters
+                let filterDisplay = document.getElementById("selected-filters");
+                let appliedFiltersDiv = document.querySelector(".applied-filters");
+
+                if (selectedFilters.length > 0) {
+                    filterDisplay.innerHTML = selectedFilters.join(", ");
+                    appliedFiltersDiv.style.display = "block";
+                } else {
+                    appliedFiltersDiv.style.display = "none";
+                }
+            });
+        });
+
+        //right slide
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+
+        //drop down
+        document.addEventListener("DOMContentLoaded", function() {
+            const iconContainer = document.getElementById("iconContainer");
+            const dropdownMenu = document.getElementById("dropdownMenu");
+
+            iconContainer.addEventListener("click", function() {
+                dropdownMenu.classList.toggle("active");
+            });
+
+            // Close the dropdown if clicked outside
+            document.addEventListener("click", function(e) {
+                if (!iconContainer.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove("active");
+                }
+            });
+        });
+
+
+        // function toggleListings() {
+        // const propertyType = document.getElementById('propertyType').value;
+        // if (propertyType === 'rent') {
+        // document.getElementById('rent-list').classList.remove('hidden');
+        // document.getElementById('buy-list').classList.add('hidden');
+        // } else {
+        // document.getElementById('buy-list').classList.remove('hidden');
+        // document.getElementById('rent-list').classList.add('hidden');
+        // }
+        // }
+
+        // changing the rent to buy script code
+        function toggleListings() {
+            const propertyType = document.getElementById('propertyType').value.toLowerCase();
+            document.getElementById('rent-list').classList.toggle('hidden', propertyType !== 'rent');
+            document.getElementById('buy-list').classList.toggle('hidden', propertyType !== 'buy');
+        }
+
+
+
+
+        // JavaScript to show login form in main-content area
+        document.getElementById('loginButton').addEventListener('click', function() {
+            const mainContent = document.querySelector('.main-content');
+            const loginFormTemplate = document.getElementById('login-form-template').content.cloneNode(true);
+            mainContent.innerHTML = ''; // Clear existing content
+            mainContent.appendChild(loginFormTemplate); // Add login form
+        });
+    </script>
+</body>
+
+</html>
