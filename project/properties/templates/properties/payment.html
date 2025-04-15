@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .payment-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.3s ease-in-out;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        .back-link {
+            display: block;
+            margin-top: 15px;
+            font-size: 1rem;
+            color: #555;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="payment-card">
+            <h1>Complete Your Payment 💳</h1>
+            <p>Enter your payment details below to finalize the booking.</p>
+            <form id="payment-form" method="post" action="{% url 'process_payment' booking.id %}">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="card-name">Card Name</label>
+                    <input type="text" name="card_name" id="card-name" placeholder="John Doe" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="card-number">Card Number</label>
+                    <input type="text" name="card_number" id="card-number" placeholder="1234567890123456" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiry-date">Expiry Date</label>
+                        <input type="text" name="expiry_date" id="expiry-date" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" name="cvv" id="cvv" placeholder="123" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="amount">Amount (in USD)</label>
+                    <input type="text" name="amount" id="amount" placeholder="100.00" required>
+                </div>
+
+                <button type="submit">Pay Now</button>
+            </form>
+
+            <a href="{% url 'index' %}" class="back-link">Cancel Payment</a> {% if payment %}
+            <a href="{% url 'download_invoice' payment.id %}">Download Invoice</a> {% else %}
+            <p>No payment record found.</p>
+            {% endif %}
+
+
+        </div>
+    </div>
+</body>
+
+</html>

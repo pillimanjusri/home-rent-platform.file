@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About-Us - Home Rent Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        h1 {
+            color: #007bff;
+            animation: slideIn 1s ease-out;
+        }
+        
+        p {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.6;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        .contact {
+            margin-top: 20px;
+            font-size: 16px;
+            animation: fadeIn 2s ease-out;
+        }
+        
+        .contact a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .contact a:hover {
+            text-decoration: underline;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>About Us</h1>
+        <p>Welcome to <strong>Home Rent Platform</strong>, your trusted destination for finding the perfect home for rent.
+        </p>
+        <p>We aim to make the rental process smooth, secure, and efficient by connecting tenants and landlords seamlessly.
+        </p>
+        <p>With a wide range of verified listings, secure transactions, and dedicated support, we ensure a hassle-free experience.
+        </p>
+        <div class="contact">
+            <p>Have questions? Contact us at:</p>
+            <p>Email: <a href="mailto:contact@homerent.com">contact@homerent.com</a></p>
+            <p>Phone: <a href="tel:+919876543210">+91 98765 43210</a></p>
+        </div>
+    </div>
+</body>
+
+</html>

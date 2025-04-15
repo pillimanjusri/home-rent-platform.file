@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful</title>
+    <script>
+        document.getElementById("payBtn").addEventListener("click", function() {
+            fetch('/process_payment/', { // Django payment endpoint
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken') // For CSRF protection
+                    },
+                    body: JSON.stringify({
+                            booking_id: 123
+                        }) // Send booking ID dynamically
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById("paymentModal").style.display = "block"; // Show modal
+                    } else {
+                        alert("Payment Failed! Try again.");
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        // Function to get CSRF token from cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                let cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</head>
+
+<body>
+    <h2>Payment Successful!</h2>
+    <p>Redirecting to homepage...</p>
+</body>
+
+</html>

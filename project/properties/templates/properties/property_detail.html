@@ -1,0 +1,51 @@
+{% extends 'base.html' %} {% block content %}
+<div class="property-details">
+    <h2>{{ property.title }}</h2>
+    <p>Price: ₹{{ property.price }}</p>
+    <p>Location: {{ property.location }}</p>
+    <p>Description: {{ property.description }}</p>
+
+    <!-- ✅ Activity Tracking Forms -->
+    <form action="{% url 'track_activity' 'recently_searched' property.id %}" method="POST" class="track-activity-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary track-button">Search</button>
+    </form>
+
+    <form action="{% url 'track_activity' 'recently_viewed' property.id %}" method="POST" class="track-activity-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary track-button">View</button>
+    </form>
+
+    <form action="{% url 'track_activity' 'shortlisted' property.id %}" method="POST" class="track-activity-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary track-button">Shortlist</button>
+    </form>
+
+    <form action="{% url 'track_activity' 'contacted' property.id %}" method="POST" class="track-activity-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary track-button">Contact</button>
+    </form>
+
+</div>
+
+<!-- ✅ JavaScript to Track Button Clicks -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let buttons = document.querySelectorAll("form.track-activity-form button");
+
+        if (buttons.length === 0) {
+            console.log("❌ No activity buttons found!");
+            return;
+        }
+
+        console.log("✅ JavaScript Loaded: Buttons Found ->", buttons.length);
+
+        buttons.forEach(button => {
+            button.addEventListener("click", function() {
+                console.log("🟢 Button Clicked:", this.innerText);
+            });
+        });
+    });
+</script>
+
+{% endblock %}

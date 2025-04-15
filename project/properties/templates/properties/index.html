@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOMEWANTERS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'images/icon.ico' %}" sizes="64">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        /* Navbar */
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #0056a3;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+        }
+        
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            width: 50%;
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+            width: 50%;
+        }
+        
+        .search-bar input {
+            border: none;
+            width: 100%;
+            outline: none;
+            padding: 5px;
+        }
+        
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .btn-post {
+            background: #fff;
+            color: #004080;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        /* Left Sidebar */
+        
+        .left-sidebar {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 70%;
+            height: calc(100vh - 60px);
+            background-color: #fef9f3;
+            overflow-y: auto;
+            padding: 10px;
+            border-right: 2px solid #ddd;
+        }
+        
+        .filters-container {
+            width: 100%;
+            max-width: 300px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 10px;
+        }
+        
+        .filter-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            /* Add gap between label and input/select */
+            display: block;
+            /* Ensures the label is on a new line */
+        }
+        
+        .form-control {
+            margin-bottom: 10px;
+            /* Add gap between input fields */
+        }
+        
+        .applied-filters {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+            font-size: 14px;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+        /* Right Sidebar */
+        
+        .right-sidebar {
+            position: fixed;
+            top: 60px;
+            right: 0;
+            width: 20%;
+            height: calc(100vh - 60px);
+            background-color: #fdf6e3;
+            padding: 10px;
+            border-left: 2px solid #ccc;
+        }
+        /* Main Content */
+        
+        .main-content {
+            position: absolute;
+            top: 60px;
+            left: 20%;
+            width: 60%;
+            height: calc(100vh - 60px);
+            background-color: #fffaf0;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .sidebar {
+            width: 300px;
+            background-color: #f4f4f4;
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .sidebar h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .menu-item {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .submenu {
+            display: none;
+            padding-left: 20px;
+        }
+        
+        .submenu a {
+            display: block;
+            padding: 8px 0;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .submenu a:hover {
+            color: #0073e6;
+        }
+        
+        .menu-item.active+.submenu {
+            display: block;
+        }
+        
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            width: 250px;
+            padding: 20px;
+            z-index: 1000;
+        }
+        
+        .dropdown-menu.active {
+            display: block;
+        }
+        
+        .dropdown-menu h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .dropdown-menu ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .dropdown-menu li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+        
+        .dropdown-menu li:hover {
+            color: #0056a6;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .user-actions h2,
+        .user-actions h3 {
+            margin: 0 0 10px;
+        }
+        
+        .login-btn {
+            background-color: transparent;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        
+        .property-card.expanded {
+            width: 70%;
+            /* Increase card width */
+            margin: auto;
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            /* Image & details stacked */
+            align-items: center;
+            padding: 20px;
+            background: #007BFF;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .property-card.expanded img {
+            width: 100%;
+            max-width: 1200px;
+            /* Increased max width */
+            height: auto;
+            max-height: 700px;
+            /* Increased max height */
+            object-fit: cover;
+            border-radius: 8px;
+            display: block;
+            transition: transform 0.3s ease-in-out;
+            /* Smooth transition */
+        }
+        
+        .property-card.expanded:hover img {
+            transform: scale(1.15);
+            /* More zoom effect */
+        }
+        
+        .property-card.expanded .card-body {
+            width: 100%;
+            text-align: center;
+            /* Center text */
+            padding-top: 20px;
+        }
+        /* Reduce text size */
+        
+        .property-card.expanded .card-title {
+            font-size: 20px;
+            /* Smaller title */
+            font-weight: bold;
+        }
+        
+        .property-card.expanded .card-text {
+            font-size: 16px;
+            /* Reduce text size */
+            color: #555;
+        }
+        
+        .property-card.expanded .rating {
+            font-size: 14px;
+            /* Smaller rating text */
+        }
+        
+        .property-card.expanded .btn {
+            font-size: 14px;
+            /* Reduce button text size */
+            padding: 8px 12px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            /* Align logo and text */
+        }
+        
+        .logo img {
+            height: 60px;
+            /* Adjust the size */
+            width: auto;
+            /* Maintain aspect ratio */
+            background: transparent;
+            /* Remove white background */
+        }
+        
+        .logo-text {
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            margin-left: 10px;
+            /* Space between logo and text */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="logo">
+            <img src="/media/images/logo1.png" alt="Logo" class="logo-img"> HOMEWANTERS
+        </div>
+
+        <div class="search-bar">
+            <select class="form-select" style="width: 80px;" id="propertyType" onchange="toggleListings()">
+                <option>Rent</option>
+                <option>Buy</option>
+            </select>
+            <input type="text" id="search-bar" placeholder="Enter Locality / Project / Society / Landmark">
+            <button class="btn btn-outline-primary" onclick="searchProperties()">🔍</button>
+        </div>
+
+        <div class="navbar-right">
+            <button class="btn btn-post"><a href="{% url 'post_property' %}">Property FREE</a></button>
+            <!-- Icon Container -->
+            <div class="icon-container" id="iconContainer">
+
+                <div class="icon"></div>
+                <i class="fa-solid fa-user fa-xl" style="color: #63E6BE;"></i>
+                <span>▼</span>
+            </div>
+            <!-- Dropdown Menu -->
+            <div class="dropdown-menu" id="dropdownMenu">
+                <div class="user-actions">
+                    {% if user.is_authenticated %}
+                    <h2>Welcome, {{ user.username }}</h2>
+                    <a href="{% url 'logout' %}">Logout</a> {% else %}
+                    <h2 class="login-btn" id="loginButton"><a href="{% url 'login' %}">LOGIN / REGISTER</a></h2>
+                    {% endif %}
+                    <!-- <h2>My Activity</h2>
+                    <ul>
+                        <li onclick="loadActivity('recently_searched')">Recently Searched</li>
+                        <li onclick="loadActivity('recently_viewed')">Recently Viewed</li>
+                        <li onclick="loadActivity('shortlisted')">Shortlisted</li>
+                        <li onclick="loadActivity('contacted')">Contacted</li>
+                    </ul>
+                    <div id="activity-data">
+                        <p>Select an option to see data.</p>
+                    </div> -->
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Left Sidebar (Filters) -->
+
+    <div class="left-sidebar">
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="filters-container">
+                        <h5>Filters</h5>
+
+                        <!-- Applied Filters -->
+                        <div class="applied-filters" id="applied-filters" style="display: none;">
+                            <strong>Applied Filters:</strong>
+                            <div id="selected-filters"></div>
+                        </div>
+
+                        <!-- Property Type Filter -->
+                        <label for="propertyTypeFilter" class="form-label">Property Type</label>
+                        <select id="propertyTypeFilter" name="property_type" class="form-control">
+                            <option value="">All Properties</option>
+                            <option value="rent">Rent</option>
+                            <option value="buy">Buy</option>
+                        </select>
+
+                        <!-- Budget Filter -->
+                        <div class="filter-group">
+                            <input type="number" id="budgetLacs" name="budget" class="form-control" placeholder="Budget in Lacs">
+                            <input type="number" id="budgetThousands" name="budget" class="form-control" placeholder="Budget in thousands">
+                        </div>
+
+                        <!-- Bedrooms Filter -->
+                        <div class="filter-group">
+                            <label for="bedroomsFilter" class="form-label">No. of Bedrooms</label>
+                            <select id="bedroomsFilter" name="bedrooms" class="form-control">
+                                <option value="">Select Bedrooms</option>
+                                <option value="1">1 BHK</option>
+                                <option value="2">2 BHK</option>
+                                <option value="3">3 BHK</option>
+                                <option value="4">4 BHK</option>
+                                <option value="5">5+ BHK</option>
+                            </select>
+                        </div>
+
+                        <!-- Location Filter -->
+                        <div class="filter-group">
+                            <label for="locationFilter" class="form-label">Location</label>
+                            <input type="text" id="locationFilter" name="location" class="form-control" placeholder="Enter Location">
+                        </div>
+
+                        <!-- Apply Filters Button -->
+                        <button class="btn btn-primary w-100" id="apply-filters">Apply Filters</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Rent Listings -->
+        <div class="container">
+            <div id="rent-list">
+                <h4>Properties for Rent</h4>
+                <div class="row">
+                    {% if rent_properties %} {% for property in rent_properties %}
+                    <div class="col-md-12 property-card" data-id="rent-{{property.id}}" data-type="rent">
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="{% if property.image %}{{ property.image.url }}{% else %}/static/images/default-placeholder.png{% endif %} " alt="{{ property.name }}" height="200px" width="250px" />
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body" data-title="{{ property.name }}" data-location="{{ property.location }}">
+                                        <h5 class="card-title">{{ property.name }}</h5>
+                                        <p class="card-text">{{ property.bedrooms }} Bedroom House for rent</p>
+                                        <p class="card-text"><strong>₹{{ property.price }}</strong> /month</p>
+                                        <p class="rating">
+                                            ⭐ {% if property.rating %} {{ property.rating }} {% else %} 0.0 {% endif %} ({% if property.reviews_count %} {{ property.reviews_count }} {% else %} 0 {% endif %} Reviews)
+                                        </p>
+                                        <p><i class='fas fa-map-marker-alt'></i> {{ property.location }}</p>
+                                        <button class="btn btn-primary book-now-btn" onclick="window.location.href='/book_now/{{ property.id }}/'">
+                                            Book Now
+                                        </button>
+
+
+
+                                        <button class="btn btn-primary view-property" data-id="rent-{{ property.id }}" data-type="rent">ViewProperty</button>
+                                        <button class="btn btn-outline-primary" data-property-id="{{ property.id }}" onclick="showContact(this.getAttribute('data-property-id'))">
+                                            Contact
+                                        </button>
+                                        <div id="contact-info-{{ property.id }}" class="contact-info" style="display: none; margin-top: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 8px;">
+                                            <strong>Contact Information:</strong>
+                                            <p id="contact-details-{{ property.id }}"></p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %} {% else %}
+                    <p>No properties available for rent.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- Buy Listings -->
+            <div id="buy-list">
+                <h4>Properties for Buy</h4>
+                <div class="row">
+                    {% if buy_properties %} {% for property in buy_properties %}
+                    <div class="col-md-12 property-card" data-id="buy-{{property.id}}" data-type="buy">
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="{% if property.image %}{{ property.image.url }}{% else %}/static/images/default-placeholder.png{% endif %}" alt="{{ property.name }}" height="200px" width="250px" />
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body" data-title="{{ property.name }}" data-location="{{ property.location }}">
+                                        <h5 class="card-title">{{ property.name }}</h5>
+                                        <p class="card-text">{{ property.bedrooms }} Bedroom House for buy</p>
+                                        <p class="card-text"><strong>₹{{ property.price }}</strong></p>
+                                        <p class="rating">
+                                            ⭐ {% if property.rating %} {{ property.rating }} {% else %} 0.0 {% endif %} ({% if property.reviews_count %} {{ property.reviews_count }} {% else %} 0 {% endif %} Reviews)
+                                        </p>
+                                        <p><i class='fas fa-map-marker-alt'></i> {{ property.location }}</p>
+                                        <button class="btn btn-primary book-now-btn" onclick="window.location.href='/book_now/{{ property.id }}/'">
+                                            Book Now
+                                        </button>
+
+
+                                        <button class="btn btn-primary view-property" data-id="buy-{{ property.id }}">ViewProperty</button>
+                                        <button class="btn btn-outline-primary" data-property-id="{{ property.id }}" onclick="showContact(this.getAttribute('data-property-id'))">
+                                            Contact
+                                        </button>
+
+                                        <div id="contact-info-{{ property.id }}" class="contact-info" style="display: none; margin-top: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 8px;">
+                                            <strong>Contact Information:</strong>
+                                            <p id="contact-details-{{ property.id }}"></p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %} {% else %}
+                    <p>No properties available for buy.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Right Sidebar (Dealers, Buyers, etc.) -->
+    <div class="right-sidebar">
+        <div class="sidebar">
+            <h2>Explore our Services</h2>
+
+            <div class="menu-item">For Buyers</div>
+            <div class="submenu">
+                <a href="#" id="exploreBuyProperty">Buy Property</a>
+                <a href="{% url 'investment_advice' %}">Investment Advice</a>
+
+            </div>
+
+            <div class="menu-item">For Tenants</div>
+            <div class="submenu">
+                <a href="#" id="exploreRentProperty">Rental Home</a>
+                <!-- <a href="#">Short-term Rentals</a> -->
+            </div>
+
+            <div class="menu-item">For Owners</div>
+            <div class="submenu">
+                <a href="{% url 'post_property' %}">List Property</a>
+                <a href="#">Manage Tenants</a>
+            </div>
+
+            <div class="menu-item">
+                <a href="aboutus.html">About Us</a>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("JavaScript Loaded");
+
+            document.getElementById("apply-filters").addEventListener("click", function() {
+                let propertyTypeEl = document.getElementById("propertyTypeFilter");
+                let budgetLacsEl = document.getElementById("budgetLacs");
+                let budgetThousandsEl = document.getElementById("budgetThousands");
+                let bedroomsEl = document.getElementById("bedroomsFilter");
+                let locationEl = document.getElementById("locationFilter");
+
+                if (!propertyTypeEl || !budgetLacsEl || !budgetThousandsEl || !bedroomsEl || !locationEl) {
+                    console.error("One or more elements not found!");
+                    return;
+                }
+
+                let propertyType = propertyTypeEl.value;
+                let budgetLacs = parseFloat(budgetLacsEl.value) || 0;
+                let budgetThousands = parseFloat(budgetThousandsEl.value) || 0;
+                let bedrooms = bedroomsEl.value;
+                let location = locationEl.value.trim().toLowerCase();
+
+                let totalBudget = (budgetLacs * 100000) + (budgetThousands * 1000);
+                let selectedFilters = [];
+                if (budgetLacs) selectedFilters.push(`Budget: ${budgetLacs} Lacs`);
+                if (budgetThousands) selectedFilters.push(`Budget: ${budgetThousands} Thousands`);
+
+                console.log("Selected Filters:", {
+                    propertyType,
+                    totalBudget,
+                    bedrooms,
+                    location
+                });
+
+                let allProperties = document.querySelectorAll(".property-card");
+                let found = false;
+                let matchedProperties = 0;
+
+                allProperties.forEach(property => {
+                    let type = property.getAttribute("data-type");
+                    let priceText = property.querySelector(".card-text strong");
+                    if (!priceText) {
+                        console.warn("Price not found for property", property);
+                        return;
+                    }
+                    let price = parseInt(priceText.innerText.replace(/[^0-9]/g, "")) || 0;
+                    let propertyBedroomsMatch = property.querySelector(".card-text").innerText.match(/\d+/);
+                    let propertyBedrooms = propertyBedroomsMatch ? propertyBedroomsMatch[0] : "";
+                    let propertyLocationEl = property.querySelector(".card-body");
+                    if (!propertyLocationEl) {
+                        console.warn("Location not found for property", property);
+                        return;
+                    }
+                    let propertyLocation = propertyLocationEl.getAttribute("data-location").trim().toLowerCase();
+
+                    let matchesType = !propertyType || type === propertyType;
+                    let matchesBudget = totalBudget === 0 || price <= totalBudget;
+                    let matchesBedrooms = !bedrooms || bedrooms === propertyBedrooms;
+                    let matchesLocation = !location || propertyLocation.includes(location);
+
+                    let matchStatus = {
+                        matchesType,
+                        matchesBudget,
+                        matchesBedrooms,
+                        matchesLocation
+                    };
+                    console.log("Checking Property:", {
+                        type,
+                        price,
+                        propertyBedrooms,
+                        propertyLocation
+                    });
+                    console.log("Match Status:", matchStatus);
+
+                    if (matchesType && matchesBudget && matchesBedrooms && matchesLocation) {
+                        property.style.display = "block";
+                        found = true;
+                        matchedProperties++;
+                    } else {
+                        property.style.display = "none";
+                    }
+                });
+
+                console.log(`Total Matched Properties: ${matchedProperties}`);
+                let noResultsMsg = document.getElementById("no-results");
+                if (!noResultsMsg) {
+                    noResultsMsg = document.createElement("p");
+                    noResultsMsg.id = "no-results";
+                    noResultsMsg.style.color = "red";
+                    noResultsMsg.style.fontWeight = "bold";
+                    noResultsMsg.innerText = "No properties found matching your filters.";
+                    document.querySelector(".main-content .container").appendChild(noResultsMsg);
+                }
+                noResultsMsg.style.display = found ? "none" : "block";
+            });
+        });
+
+
+
+
+
+
+        //right slide                
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+
+        //drop down
+        document.addEventListener("DOMContentLoaded", function() {
+            const iconContainer = document.getElementById("iconContainer");
+            const dropdownMenu = document.getElementById("dropdownMenu");
+
+            iconContainer.addEventListener("click", function() {
+                dropdownMenu.classList.toggle("active");
+            });
+
+            // Close the dropdown if clicked outside
+            document.addEventListener("click", function(e) {
+                if (!iconContainer.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove("active");
+                }
+            });
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const propertyTypeSelector = document.getElementById('propertyType');
+
+            // Function to toggle between Rent and Buy listings
+            function toggleListings() {
+                const propertyType = propertyTypeSelector.value.toLowerCase();
+                const rentList = document.getElementById('rent-list');
+                const buyList = document.getElementById('buy-list');
+
+                if (propertyType === 'rent') {
+                    rentList.style.display = 'block';
+                    buyList.style.display = 'none';
+                } else if (propertyType === 'buy') {
+                    rentList.style.display = 'none';
+                    buyList.style.display = 'block';
+                }
+            }
+
+            // Call the function when dropdown is changed
+            propertyTypeSelector.addEventListener('change', toggleListings);
+
+            // Initial call to set the default view
+            toggleListings();
+        });
+
+
+
+
+
+
+
+
+        // search bar//
+
+        function searchProperties() {
+            const query = document.getElementById('search-bar').value.trim().toLowerCase();
+            const propertyType = document.getElementById('propertyType').value;
+
+            const rentList = document.getElementById('rent-list');
+            const buyList = document.getElementById('buy-list');
+
+            const rentCards = document.querySelectorAll('#rent-list .property-card');
+            const buyCards = document.querySelectorAll('#buy-list .property-card');
+
+            let hasResults = false;
+
+            // If search bar is empty, reset properties and show all
+            if (query === "") {
+                resetProperties();
+                return;
+            }
+
+            // function filterProperties(cards, propertyType) {
+            //     let found = false;
+            //     cards.forEach(card => {
+            //         const cardBody = card.querySelector('.card-body');
+            //         const title = cardBody ? .getAttribute('data-title') ? .toLowerCase() || '';
+            //         const location = cardBody ? .getAttribute('data-location') ? .toLowerCase() || '';
+            //         if (title.includes(query) || location.includes(query)) {
+            //             card.style.display = 'block';
+            //             found = true;
+            //         } else {
+            //             card.style.display = 'none';
+            //         }
+            //     });
+
+            // If no results found, show the message
+            const messageId = `no-results-message-${propertyType}`;
+            let messageElement = document.getElementById(messageId);
+
+            if (!found) {
+                if (!messageElement) {
+                    messageElement = document.createElement('p');
+                    messageElement.id = messageId;
+                    messageElement.style.color = 'red';
+                    messageElement.style.fontSize = '18px';
+                    messageElement.textContent = 'No properties found!';
+                    document.getElementById(`${propertyType.toLowerCase()}-list`).appendChild(messageElement);
+                }
+            } else {
+                if (messageElement) {
+                    messageElement.remove(); // Remove message if there are results
+                }
+            }
+        }
+
+        if (propertyType === 'Rent') {
+            filterProperties(rentCards, 'Rent');
+            buyList.style.display = 'none'; // Hide Buy section if searching in Rent
+        } else if (propertyType === 'Buy') {
+            filterProperties(buyCards, 'Buy');
+            rentList.style.display = 'none'; // Hide Rent section if searching in Buy
+        }
+
+
+        // Reset properties when search is cleared
+        function resetProperties() {
+            document.getElementById('search-bar').value = ''; // Clear search input
+            removeNoResultsMessage('Rent');
+            removeNoResultsMessage('Buy');
+
+            document.querySelectorAll('.property-card').forEach(card => {
+                card.style.display = 'block';
+            });
+
+            toggleListings(); // Restore Rent/Buy sections
+        }
+
+        // Remove "No properties found" message
+        function removeNoResultsMessage(propertyType) {
+            const messageId = `no-results-message-${propertyType}`;
+            const messageElement = document.getElementById(messageId);
+            if (messageElement) {
+                messageElement.remove();
+            }
+        }
+
+        // Toggle Rent/Buy sections correctly
+        function toggleListings() {
+            const propertyType = document.getElementById('propertyType').value;
+            const rentList = document.getElementById('rent-list');
+            const buyList = document.getElementById('buy-list');
+
+            if (propertyType === 'Rent') {
+                rentList.style.display = 'block';
+                buyList.style.display = 'none';
+            } else {
+                rentList.style.display = 'none';
+                buyList.style.display = 'block';
+            }
+        }
+
+        // Store original HTML content on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('propertyType').addEventListener('change', toggleListings);
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".view-property").forEach((button) => {
+                button.addEventListener("click", function(event) {
+                    event.stopPropagation();
+                    let propertyId = this.getAttribute("data-id");
+                    showProperty(propertyId);
+                });
+            });
+        });
+
+        function showProperty(propertyId) {
+            // Hide all property cards
+            document.querySelectorAll(".property-card").forEach((card) => {
+                card.style.display = "none";
+            });
+
+            // Show only the selected property card
+            let selectedProperty = document.querySelector(`[data-id='${propertyId}']`);
+            if (selectedProperty) {
+                selectedProperty.style.display = "block";
+                selectedProperty.classList.add("expanded"); // Add expanded class
+            }
+
+            // Remove existing back button
+            let existingBackButton = document.getElementById("backToList");
+            if (existingBackButton) {
+                existingBackButton.remove();
+            }
+
+            // Add "Back to List" button
+            const backButton = document.createElement("button");
+            backButton.textContent = "Back to List";
+            backButton.id = "backToList";
+            backButton.className = "btn btn-secondary";
+            backButton.style.marginTop = "10px";
+            backButton.addEventListener("click", function() {
+                document.querySelectorAll(".property-card").forEach((card) => {
+                    card.style.display = "block";
+                    card.classList.remove("expanded"); // Remove expanded style
+                });
+                this.remove();
+            });
+
+            selectedProperty.appendChild(backButton);
+        }
+
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Click event for Buy Property
+            document.getElementById("exploreBuyProperty").addEventListener("click", function(event) {
+                event.preventDefault(); // Prevent page reload
+                console.log("Buy Property clicked!");
+
+                let allProperties = document.querySelectorAll(".property-card"); // Select all properties
+                allProperties.forEach((property) => {
+                    if (property.getAttribute("data-type") === "buy") {
+                        property.style.display = "block"; // Show buy properties
+                    } else {
+                        property.style.display = "none"; // Hide rental properties
+                    }
+                });
+            });
+
+            // Click event for Rental Home
+            document.getElementById("exploreRentProperty").addEventListener("click", function(event) {
+                event.preventDefault(); // Prevent page reload
+                console.log("Rental Home clicked!");
+
+                let allProperties = document.querySelectorAll(".property-card"); // Select all properties
+                allProperties.forEach((property) => {
+                    if (property.getAttribute("data-type") === "rent") {
+                        property.style.display = "block"; // Show rent properties
+                    } else {
+                        property.style.display = "none"; // Hide buy properties
+                    }
+                });
+            });
+        });
+
+
+
+
+        //signin and signup
+
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("JavaScript Loaded");
+
+            const signUpButton = document.getElementById("signUp");
+            const signInButton = document.getElementById("signIn");
+            const container = document.getElementById("container");
+
+            if (signUpButton && signInButton && container) {
+                console.log("Elements Found");
+
+                signUpButton.addEventListener("click", () => {
+                    console.log("Sign Up Clicked");
+                    container.classList.add("right-panel-active");
+                });
+
+                signInButton.addEventListener("click", () => {
+                    console.log("Sign In Clicked");
+                    container.classList.remove("right-panel-active");
+                });
+            } else {
+                console.log("One or more elements not found!");
+            }
+        });
+
+
+        // to contact page
+
+
+        function showContact(propertyId) {
+            fetch(`/get_contact_details/${propertyId}/`) // Ensure this URL matches the Django URL pattern
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Debugging: Check API response in console
+
+                    if (data.success) {
+                        let contactInfo = document.getElementById(`contact-info-${propertyId}`);
+                        let contactDetails = document.getElementById(`contact-details-${propertyId}`);
+
+                        if (contactInfo && contactDetails) {
+                            contactDetails.innerHTML = `
+                        <p><strong>Name:</strong> ${data.name}</p>
+                        <p><strong>Phone:</strong> ${data.phone}</p>
+                        <p><strong>Email:</strong> ${data.email}</p>
+                    `;
+                            contactInfo.style.display = "block";
+                        } else {
+                            console.error("Contact info element not found!");
+                        }
+                    } else {
+                        alert("Contact details not available.");
+                    }
+                })
+                .catch(error => console.error('Error fetching contact details:', error));
+        }
+
+        // JavaScript to handle 'Book Now' button click
+        document.querySelectorAll('.book-now-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const propertyId = this.dataset.propertyId;
+                loadBookNowPage(propertyId);
+            });
+        });
+        // my activity
+
+        function loadActivity(activityType) {
+            $.ajax({
+                url: `/get-activity/${activityType}/`,
+                method: "GET",
+                success: function(response) {
+                    let html = "<ul>";
+                    if (response.length > 0) {
+                        response.forEach(item => {
+                            html += `<li>${item.property_name}</li>`;
+                        });
+                    } else {
+                        html += "<li>No data available</li>";
+                    }
+                    html += "</ul>";
+                    $("#activity-data").html(html);
+                },
+                error: function() {
+                    $("#activity-data").html("<p>Error fetching data</p>");
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

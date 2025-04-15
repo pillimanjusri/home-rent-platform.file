@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* General styling */
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        /* Container */
+        
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        /* Confirmation card */
+        
+        .confirmation-card {
+            text-align: center;
+        }
+        
+        h1 {
+            color: #4caf50;
+            font-size: 2rem;
+        }
+        
+        p {
+            font-size: 1.1rem;
+            color: #555;
+        }
+        /* Instructions */
+        
+        .instructions {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .instructions li {
+            background: #eef;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        /* Buttons */
+        
+        .action-buttons {
+            margin-top: 20px;
+        }
+        
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <h2>Rental Agreement</h2>
+    <p>Property: {{ property.title }}</p>
+    <p>Tenant Name: {{ user.username }}</p>
+    <p>Agreement Date: {{ agreement_date }}</p>
+    <p>Rent Amount: {{ rent_amount }}</p> -->
+
+
+    <div class="container">
+        <div class="confirmation-card">
+            <h1>Booking Confirmed! ✅</h1>
+            <p>Thank you for booking with us. Please review the following instructions:</p>
+
+            <ul class="instructions">
+                <li>Ensure all payments are made as per the rental agreement.</li>
+                <li>Respect the property's rules and regulations.</li>
+                <li>Contact the property owner directly for any inquiries.</li>
+            </ul>
+        </div>
+
+        <div class="action-buttons">
+            <button onclick="agreeAndProceed()">I Agree</button>
+            <a href="{% url 'index' %}" class="back-link">Go Back to Home</a>
+        </div>
+    </div>
+    <!-- <a href="{% url 'download_invoice' booking.id %}">Download Invoice</a> -->
+
+</body>
+<script>
+    function agreeAndProceed() {
+        window.location.href = "{% url 'payment' booking.id %}"; // Redirects to Payment Page
+    }
+</script>
+
+</html>

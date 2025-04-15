@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Property</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .b {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+        
+        .containerr {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 700px;
+        }
+        
+        .hh {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .full-width {
+            grid-column: span 2;
+        }
+        
+        .l {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #5cb85c;
+            outline: none;
+            box-shadow: 0 0 8px rgba(92, 184, 92, 0.3);
+        }
+        
+        .d {
+            width: 100%;
+            padding: 12px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+        
+        .d:hover {
+            background-color: #4cae4c;
+        }
+        /* Responsive Design */
+        
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+        }
+        
+        .back {
+            background-image: url("/media/images/logo3.jpg");
+            background-size: cover;
+            /* Ensures the image covers the entire page */
+            background-repeat: no-repeat;
+            background-position: center center;
+            /* background-color: #f4f4f4; */
+            /* Light gray background */
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body class="b back">
+
+    <div class="containerr">
+        <h2 class="hh">Post a New Property</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div>
+                    <label class="l">Name:</label>
+                    <input type="text" name="name" required>
+                </div>
+
+                <div>
+                    <label class="l">Location:</label>
+                    <input type="text" name="location" required>
+                </div>
+
+                <div>
+                    <label class="l">Budget (in Lacs):</label>
+                    <input type="number" name="budget_lacs" step="0.1" required>
+                </div>
+
+                <div>
+                    <label class="l">Budget (in Thousands):</label>
+                    <input type="number" name="budget_thousands" step="1" required>
+                </div>
+
+                <div>
+                    <label class="l">Bedrooms:</label>
+                    <input type="number" name="bedrooms" required>
+                </div>
+
+                <div>
+                    <label class="l">Property Type:</label>
+                    <select name="property_type">
+                        <option value="rent">Rent</option>
+                        <option value="buy">Buy</option>
+                    </select>
+                </div>
+
+                <!-- Image Upload -->
+                <div class="full-width">
+                    <label class="l">Image:</label>
+                    <input type="file" name="image" accept="image/*" required>
+                </div>
+
+                <!-- Two Cards Below Image -->
+                <div class="full-width card-container">
+                    <div class="card">
+                        <label class="l">Rating (1-5):</label>
+                        <input type="number" name="rating" min="1" max="5" step="0.1" required>
+                    </div>
+
+                    <div class="card">
+                        <label class="l">Review:</label>
+                        <textarea name="reviews" required></textarea>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="l">Contact Name:</label>
+                    <input type="text" name="contact_name" required>
+                </div>
+
+                <div>
+                    <label class="l">Phone Number:</label>
+                    <input type="tel" name="contact_phone" pattern="[0-9]{10}" placeholder="Enter 10-digit phone number" required>
+                </div>
+
+                <div class="full-width">
+                    <label class="l">Email:</label>
+                    <input type="email" name="contact_email" placeholder="example@email.com" required>
+                </div>
+
+                <div class="full-width">
+                    <button class="d" type="submit">Post Property</button>
+                </div>
+            </div>

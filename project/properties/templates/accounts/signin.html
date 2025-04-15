@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In & Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        .onee {
+            font-family: 'Poppins', sans-serif;
+            background: #f6f5f7;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .to {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            overflow: hidden;
+            transition: 0.5s ease-in-out;
+        }
+        /* Home Logo Styling */
+        
+        .home-logo {
+            width: 100px;
+            /* Adjust as needed */
+            height: auto;
+            display: block;
+            margin: 0 auto 15px;
+            /* Center logo and add spacing */
+        }
+        
+        .three {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .for {
+            display: none;
+        }
+        
+        .tit {
+            font-size: 1.8rem;
+            color: #333;
+        }
+        
+        .in,
+        .ini {
+            background: #f0f0f0;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: none;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .in input,
+        .ini input {
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 1rem;
+            width: 100%;
+            padding: 5px;
+        }
+        
+        .btnn {
+            background: #5c6bc0;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        
+        .btnn:hover {
+            background: #3949ab;
+        }
+        
+        .para {
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        .aaa {
+            color: #5c6bc0;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .aaa:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 480px) {
+            .to {
+                padding: 1.5rem;
+            }
+            .tit {
+                font-size: 1.5rem;
+            }
+        }
+        
+        .ba {
+            background-image: url("/media/images/signin.png");
+            background-size: cover;
+            /* Ensures the image covers the entire page */
+            background-repeat: no-repeat;
+            background-position: center center;
+            /* background-color: #f4f4f4; */
+            /* Light gray background */
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body class="onee ba">
+    <div class="to">
+        <!-- Home Logo Added Here -->
+
+        {% load static %}
+        <img src="/media/images/logo1.png" alt="Logo" style="width: 150px; height: auto;">
+
+        <div class="form-container">
+            <form action="{% url 'login' %}" method="POST" class="form sign-in-form three">
+                {% csrf_token %}
+                <h2 class="tit">Sign In</h2>
+                <div class="ini">
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+                <div class="ini">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btnn">Login</button>
+                <p class="para">Don't have an account? <a href="#" class="aaa" id="show-sign-up">Sign Up</a></p>
+            </form>
+
+            <form action="{% url 'signup' %}" method="POST" class="form sign-up-form for">
+                {% csrf_token %}
+                <h2 class="tit">Sign Up</h2>
+                <div class="in">
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+                <!-- <div class="in">
+                    <input type="text" name="first_name" placeholder="First Name" required>
+                </div>
+                <div class="in">
+                    <input type="text" name="last_name" placeholder="Last Name" required>
+                </div> -->
+                <div class="in">
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="in">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btnn">Register</button>
+                <p class="para">Already have an account? <a href="#" class="aaa" id="show-sign-in">Sign In</a></p>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        const signUpForm = document.querySelector('.sign-up-form');
+        const signInForm = document.querySelector('.sign-in-form');
+        const showSignUpBtn = document.getElementById('show-sign-up');
+        const showSignInBtn = document.getElementById('show-sign-in');
+
+        showSignUpBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            signInForm.style.display = 'none';
+            signUpForm.style.display = 'block';
+        });
+
+        showSignInBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            signUpForm.style.display = 'none';
+            signInForm.style.display = 'block';
+        });
+    </script>
+</body>
+
+</html>
